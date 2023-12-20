@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 
 import { handleError } from "@/lib/utils"
 import { CreateUserParams } from "@/types"
-import { connectToDatabase } from "../database"
+import { checkDatabaseConnection, connectToDatabase } from "../database"
 import User from "../database/models/user.model"
 import Order from '../database/models/order.model'
 import Event from '../database/models/event.model'
@@ -12,6 +12,8 @@ import Event from '../database/models/event.model'
 export const createUser = async (user: CreateUserParams) => {
     try {
         await connectToDatabase();
+        await checkDatabaseConnection();
+        console.log('Creating user')
 
         const newUser = await User.create(user);
 
